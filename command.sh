@@ -1,9 +1,18 @@
 #!/bin/bash
 
-INPUTFILES='./data/mixed_001_R_1.out'
-OUTPUTFILE='./output/mixed_001_R_1.png'
-LEGEND='mixed GE: 0.001 / RD: 1'
-CHROMOSOME='NC_006620.3'
+INPUTFILES='./data/greyhound03_10.calls 
+./data/greyhound03_01.calls
+./data/greyhound03_02.calls
+./data/greyhound03_03.calls
+./data/greyhound03_04.calls
+./data/greyhound03_05.calls
+./data/greyhound03_06.calls
+./data/greyhound03_07.calls
+./data/greyhound03_08.calls
+./data/greyhound03_09.calls'
+OUTPUTFILE='./output/greyhound03.png'
+LEGEND='greyhound03 - 10 simulations 0.5x GE: 0.001 / RD: 1'
+CHROMOSOME='NC_006619.3'
 BREEDS='./data/all.breeds'
 
 
@@ -12,8 +21,7 @@ python3 breedCallingPlot.py \
   --legend "${LEGEND}" \
   --breeds ${BREEDS} \
   --chromosome ${CHROMOSOME} \
-  "${INPUTFILE}"
+  ${INPUTFILES}
 
 
-#--input "${INPUTFILE}" \ 
-#--input <(cat "${INPUTFILE}" | head -1000) \
+#--breeds ${BREEDS} \
