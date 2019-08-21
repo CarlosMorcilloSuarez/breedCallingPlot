@@ -8,7 +8,7 @@
 
 __author__ = "Carlos Morcillo-Suarez"
 __license__ = "GPL"
-__version__ = "2019/08/19 16:42" # YYYY/MM/DD HH:MM
+__version__ = "2019/08/21 17:06" # YYYY/MM/DD HH:MM
 __email__ = "carlos.morcillo.upf.edu@gmail.com"
 __copyright__ = "Copyright 2018, Carlos Morcillo-Suarez"
 
