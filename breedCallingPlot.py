@@ -8,13 +8,11 @@
 
 __author__ = "Carlos Morcillo-Suarez"
 __license__ = "GPL"
-__version__ = "2019/08/21 17:06" # YYYY/MM/DD HH:MM
+__version__ = "2019/08/28 17:34" # YYYY/MM/DD HH:MM
 __email__ = "carlos.morcillo.upf.edu@gmail.com"
-__copyright__ = "Copyright 2018, Carlos Morcillo-Suarez"
 
 
 import sys
-
 
 import numpy as np
 import pandas as pd
@@ -31,7 +29,7 @@ def processArguments(argv):
                         argv,
                         "",
                         ["chromosome=", "legend=","output=",
-                         "breeds="]
+                         "breeds=","help"]
         )
 
     except getopt.GetoptError as e:
@@ -50,7 +48,63 @@ def processArguments(argv):
         elif opt in ("--breeds"):
             global breedsFileName
             breedsFileName = arg
+        elif opt in ("--help"):
+            usage()
+            sys.exit(-1)        
     return(args)
+    
+def usage():
+    print()
+    print('''
+    
+       breedCallingPlot.py
+        
+           Creates a genomic plot of a chromosome showing the breed
+           assigned to each fragment for one or more breed discovery
+           experiments.
+           
+                
+       SYNOPSIS
+        
+            python breedCallingPlot.py [options] file [file2] [file3]...
+        
+                              
+       OPTIONS
+                                       
+            --output <file_name>
+                    File name of the generated plot.
+                    Default value: 'breedCallingPlot.png'                    
+                    
+            --legend <legend>
+                    Description of the plot.
+                    
+            --chromosome <chromosome_label>
+                    Label of the plotted chromosome.
+                    
+            --breeds <breeds_file>
+                    Name of a file containing the list of breeds to be plotted.
+                    When plotting a single experiment, the breeds file can
+                    be omited.
+                    
+             --help
+                    Shows this help information.
+                    
+       FILES
+         
+            List of files containing each one the calls of a breed discovery
+            experiment.
+           
+           
+       DEPENDENCIES
+        
+            numpy
+            pandas
+            matplotlib
+            genomePlot
+                https://github.com/CarlosMorcilloSuarez/genomePlot           
+            
+    ''')    
+    
     
 if __name__ == "__main__":
 
@@ -65,10 +119,14 @@ if __name__ == "__main__":
     inputFileNames = processArguments(sys.argv[1:])    
     if inputFileNames == []:
         print("Input file name not specified - Exiting")
+        print()
+        print("--help for further information")
         sys.exit(-1)
     if breedsFileName == '' and len(inputFileNames) != 1:
         print("When plotting more than one calls file", end=' ')
         print("Breeds file has to be provided - Exiting")
+        print()
+        print("--help for further information")
         sys.exit(-1)
     
     isFirstFile = True
