@@ -2,7 +2,8 @@
 
 Creates a genomic plot of a chromosome showing the breed assigned to each fragment for one or more breed discovery experiments.
 
-      SYNOPSIS
+                
+       SYNOPSIS
         
             python breedCallingPlot.py [options] file [file2] [file3]...
         
@@ -23,6 +24,12 @@ Creates a genomic plot of a chromosome showing the breed assigned to each fragme
                     Name of a file containing the list of breeds to be plotted.
                     When plotting a single experiment, the breeds file can
                     be omited.
+                  
+             --colors <colors_file>
+                    Name of a file containing the list of colors to be used
+                    when plotting the breed calls for every experiment. If
+                    the list of colors is shorter than the list of experiments
+                    then colors are rotated from the beginning.
                     
              --help
                     Shows this help information.
@@ -39,7 +46,5 @@ Creates a genomic plot of a chromosome showing the breed assigned to each fragme
             pandas
             matplotlib
             genomePlot
-                https://github.com/CarlosMorcilloSuarez/genomePlot       
-           
-           
+                https://github.com/CarlosMorcilloSuarez/genomePlot    
            
