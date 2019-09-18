@@ -8,7 +8,7 @@
 
 __author__ = "Carlos Morcillo-Suarez"
 __license__ = "GPL"
-__version__ = "2019/08/28 17:34" # YYYY/MM/DD HH:MM
+__version__ = "2019/09/18 11:55" # YYYY/MM/DD HH:MM
 __email__ = "carlos.morcillo.upf.edu@gmail.com"
 
 
@@ -29,7 +29,7 @@ def processArguments(argv):
                         argv,
                         "",
                         ["chromosome=", "legend=","output=",
-                         "breeds=","help"]
+                         "breeds=","colors=","help"]
         )
 
     except getopt.GetoptError as e:
@@ -48,6 +48,9 @@ def processArguments(argv):
         elif opt in ("--breeds"):
             global breedsFileName
             breedsFileName = arg
+        elif opt in ("--colors"):
+            global colorsFileName            
+            colorsFileName = arg
         elif opt in ("--help"):
             usage()
             sys.exit(-1)        
@@ -85,6 +88,12 @@ def usage():
                     Name of a file containing the list of breeds to be plotted.
                     When plotting a single experiment, the breeds file can
                     be omited.
+                  
+             --colors <colors_file>
+                    Name of a file containing the list of colors to be used
+                    when plotting the breed calls for every experiment. If
+                    the list of colors is shorter than the list of experiments
+                    then colors are rotated from the beginning.
                     
              --help
                     Shows this help information.
@@ -112,26 +121,35 @@ if __name__ == "__main__":
     inputFileNames = []
     outputFileName = 'breedCallingPlot.png'
     breedsFileName = ''
+    colorsFileName = ''
     chromosome=''    
     legend = ''
         
     # Process command line
     inputFileNames = processArguments(sys.argv[1:])    
+
     if inputFileNames == []:
         print("Input file name not specified - Exiting")
         print()
         print("--help for further information")
         sys.exit(-1)
+        
     if breedsFileName == '' and len(inputFileNames) != 1:
         print("When plotting more than one calls file", end=' ')
         print("Breeds file has to be provided - Exiting")
         print()
         print("--help for further information")
         sys.exit(-1)
-    
+        
+    if colorsFileName == '':
+        colors = ['#1f77b4']
+    else:
+        with open(colorsFileName,'r') as colorsFile:
+            colors = [color.strip() for color in list(colorsFile)]
+            
     isFirstFile = True
+    counter = 0
     opacity = 1/len(inputFileNames)
-    color = 'black'
     for inputFileName in inputFileNames:
         
         # Reads input File
@@ -203,6 +221,7 @@ if __name__ == "__main__":
 
         ## Plots Calls
         initialPosition = list(calls.Position)[0]
+        color = colors[counter % len(colors)]
         for index, row in list(calls.iterrows())[1:]:
             x_Pos = initialPosition
             y_Pos = breeds.index(row.Breed)+1.1
@@ -210,11 +229,12 @@ if __name__ == "__main__":
                                   (x_Pos,y_Pos),row.Position-initialPosition,0.8,
                                   zorder = 1,
                                   alpha = opacity,
-                                  #color = color
+                                  facecolor = color
                                   )
                          )
-            initialPosition = row.Position
+            initialPosition = row.Position 
             
         isFirstFile = False
+        counter += 1
     fig.savefig(outputFileName)
     
